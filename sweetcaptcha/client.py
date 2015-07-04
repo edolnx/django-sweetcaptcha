@@ -16,7 +16,7 @@ try:
     import urllib2
 except ImportError:
     from urllib.parse import urlencode
-    import urllib.parse as urllib2
+    import urllib.request as urllib2
 
 
 SWEETCAPTCHA_API = 'http://sweetcaptcha.com/api'
