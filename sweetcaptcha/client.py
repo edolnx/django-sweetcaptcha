@@ -13,9 +13,11 @@ to see the results of get_html
 """
 try:
     from urllib import urlencode
+    import urllib2
 except ImportError:
     from urllib.parse import urlencode
-import urllib2
+    import urllib.parse as urllib2
+
 
 SWEETCAPTCHA_API = 'http://sweetcaptcha.com/api'
 
