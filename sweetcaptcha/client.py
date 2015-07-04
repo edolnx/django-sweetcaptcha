@@ -39,7 +39,7 @@ def get_html(app_id, app_key, is_auto_submit=None, language=None):
         dict['is_auto_submit'] = 1
     if language:
         dict['language'] = language.upper()
-    fo = requests.get(SWEETCAPTCHA_API, params=data, verify=True)
+    fo = requests.post(SWEETCAPTCHA_API, params=data, verify=True)
     return fo.text()
 
 
@@ -56,7 +56,7 @@ def check(app_id, app_key, sckey, scvalue):
     """
     data = dict(app_id=app_id, app_key=app_key, platform='api',
                 method='check', sckey=sckey, scvalue=scvalue)
-    fo = requests.get(SWEETCAPTCHA_API, params=data, verify=True)
+    fo = requests.post(SWEETCAPTCHA_API, params=data, verify=True)
     return fo.text()
 
 
