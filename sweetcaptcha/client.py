@@ -11,13 +11,7 @@ sweetcaptcha.sweetcaptchawt.
 This module is executable.  Provide your app_id and app_key on the commandline
 to see the results of get_html
 """
-try:
-    from urllib import urlencode
-    import urllib2
-except ImportError:
-    from urllib.parse import urlencode
-    import urllib.request as urllib2
-
+import requests
 
 SWEETCAPTCHA_API = 'http://sweetcaptcha.com/api'
 
@@ -45,14 +39,8 @@ def get_html(app_id, app_key, is_auto_submit=None, language=None):
         dict['is_auto_submit'] = 1
     if language:
         dict['language'] = language.upper()
-    data = urlencode(data)
-    fo = urllib2.urlopen(SWEETCAPTCHA_API, data)
-    html = []
-    data = fo.read()
-    while data:
-        html.append(data)
-        data = fo.read()
-    return ''.join(html)
+    fo = requests.get(SWEETCAPTCHA_API, params=data)
+    return fo.text()
 
 
 def check(app_id, app_key, sckey, scvalue):
@@ -68,9 +56,8 @@ def check(app_id, app_key, sckey, scvalue):
     """
     data = dict(app_id=app_id, app_key=app_key, platform='api',
                 method='check', sckey=sckey, scvalue=scvalue)
-    data = urlencode(data)
-    fo = urllib2.urlopen(SWEETCAPTCHA_API, data)
-    return 'true' == fo.read()
+    fo = requests.get(SWEETCAPTCHA_API, params=data)
+    return fo.text()
 
 
 if __name__ == '__main__':
