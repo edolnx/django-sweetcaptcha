@@ -11,7 +11,10 @@ sweetcaptcha.sweetcaptchawt.
 This module is executable.  Provide your app_id and app_key on the commandline
 to see the results of get_html
 """
-from urllib import urlencode
+try:
+    from urllib import urlencode
+except ImportError:
+    from urllib.parse import urlencode
 import urllib2
 
 SWEETCAPTCHA_API = 'http://sweetcaptcha.com/api'
