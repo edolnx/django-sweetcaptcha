@@ -44,6 +44,8 @@ def get_html(app_id, app_key, is_auto_submit=None, language=None):
     if language:
         dict['language'] = language.upper()
     fo = requests.post(SWEETCAPTCHA_API, data=data, verify=True)
+    if fo.status_code != 200:
+        raise Exception(fo.text)
     return fo.text
 
 
@@ -61,10 +63,16 @@ def check(app_id, app_key, sckey, scvalue):
     data = dict(app_id=app_id, app_key=app_key, platform='api',
                 method='check', sckey=sckey, scvalue=scvalue)
     fo = requests.post(SWEETCAPTCHA_API, data=data, verify=True)
+    if fo.status_code != 200:
+        raise Exception(fo.text)
     return fo.text
 
 
 if __name__ == '__main__':
+    """For testing a debugging, run this script via the python interpeter.
+    First argument is the app_id and the second is the app_key
+    Runs with debugging output on to the console.
+    """
     import sys
     import logging
     logging.basicConfig()
