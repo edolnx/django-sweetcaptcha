@@ -33,14 +33,18 @@ def get_html(app_id, app_key, is_auto_submit=None, language=None):
     :return: HTML code to be implemented within your FORM tag (before the
     submit button)
     """
-    data = dict(app_id=app_id, app_key=app_key, platform='api',
-                method='get_html')
+    data = dict(
+                platform='api',
+                method='get_html',
+                app_id=app_id,
+                app_key=app_key,
+                )
     if is_auto_submit:
         dict['is_auto_submit'] = 1
     if language:
         dict['language'] = language.upper()
-    fo = requests.post(SWEETCAPTCHA_API, params=data, verify=True)
-    return fo.text()
+    fo = requests.post(SWEETCAPTCHA_API, data=data, verify=True)
+    return fo.text
 
 
 def check(app_id, app_key, sckey, scvalue):
@@ -56,10 +60,13 @@ def check(app_id, app_key, sckey, scvalue):
     """
     data = dict(app_id=app_id, app_key=app_key, platform='api',
                 method='check', sckey=sckey, scvalue=scvalue)
-    fo = requests.post(SWEETCAPTCHA_API, params=data, verify=True)
-    return fo.text()
+    fo = requests.post(SWEETCAPTCHA_API, data=data, verify=True)
+    return fo.text
 
 
 if __name__ == '__main__':
     import sys
+    import logging
+    logging.basicConfig()
+    logging.getLogger().setLevel(logging.DEBUG)
     print(get_html(sys.argv[1], sys.argv[2]))
